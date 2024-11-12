@@ -1,0 +1,84 @@
+### 오늘의 연습
+### 최소 20개 이상의 자료에 대한 좌표를 지정.
+### 또한 각 10개 이상의 동일 그룹에 대해 0, 1, ~ 등으로 출력 레이블을 지정
+### 테스트 좌표는 4개 이상 지정
+
+2차원 평면에서 제 1사분면, 2사분면, 3사분면, 4사분면으로 구분
+데이터셋: 1000개
+클래스: 4개
+레이블: 1, 2, 3, 4
+
+과제1: 출력 값이 모두 1.0 <- 히든 레이어의 폭과 잘못 지정된 레이블이 원인
+과제2: to_one_hot 함수 추가 => 레이블에 제대로 지정되게 수정하는 함수
++) 레이블 값을 [x, x, x, x]로 표현 => [1, 0, 0, 0] = 제 1사분면
+
+================================================================================
+x_train: 입력 데이터
+t_train: 출력 레이블(그룹 0 || 1)
+x_test: 테스트 데이터 (4개 이상)
+t_test: 테스트 데이터의 예상 레이블(0||1)
+
+iters_num: 학습 횟수
+train_size: 학습 데이터 크기
+lear``: 학습률
+train_loss_list: 
+
+
+[4.5 학습 알고리즘 구현]
+Class - TwoLayerNet =2층 신경망 구조를 가리키는 클래스
+        input_size: 입력 데이터 크기
+        hidden_size: 히든 레이어/노드 크기
+        output_size: 출력 데이터 크기
+        weight_init_std: 가중치
+        params: 파라미터={가중치, 편향값}
+        Wn: Layer-n에서 쓸 랜덤값 가중치
+        bn: Layer-n에서 쓸 편향값
+    predict: 예측 모델
+        W1, W2: 모델의 가중치
+        b1, b2: 모델의 편향값
+        a1/2: 1/2층 입력x가중치
+        z1: 활성함수1의 결과값=h_1
+        y: 예측값=활성함수2의 결과값
+    loss: 손실 값
+        y: 모델의 예측값
+        cross_entropy_error(y, t) 예측값과 정답으로 교차제곱오차를 구함
+    accuracy: 정확도 측정 함수
+        y: 모델의 예측값
+        y: 예측값 리스트 중 최대값을 저장함
+        t: 정답 리스트 중 최대값을 저장함
+        accuracy: ???
+    numerical_gradient: 기울기 구하는 함수
+        loss_W = ???
+        grads: gradient 리스트
+        return: gradient 리스트를 반환
+
+[MNIST에 신경망 적용]
+x_train, y_train: 훈련 set의 입력, 출력(정답)
+x_test, t_test: 테스트 set의 입력, 출력(정답)
+train_loss_list: 훈련 중 발생한 손실을 저장하는 리스트
+iters_sum: iteration 횟수
+learning_rate: 학습률
+network: TwoLayerNet 클래스의 접근하기 위한 {   }
+
+    grad = 기울기 리스트를 저장
+    key: 인덱스 변수
+        network.params: 학습률과 기울기를 곱한 값을 빼서 업데이트
+    loss = loss함수를 호출하여 받은 값을 저장
+    train_loss_list에 위의 loss값을 추가
+
+[4.5.1. 미니배치 학습]
+train_size: 훈련 set의 총 개수(784개)
+batch_size: 단게별 훈련에 쓰일 배치의 크기
+iter_per_epoch: 1에포크 당 반복할 iteration 횟수(1 이상)
+
+    batch_mask: 훈련 set 크기와 배치의 크기 중 아무거나
+    x/y_batch: 배치의 학습/출력 데이터
+
+i%iter_per_epoch==0: iter_per_epoch만큼 반복
+    train_acc: 훈련 set의 정확도
+    test_acc: 검증 set의 정확도
+    train_acc_list: 훈련 set 정확도 리스트
+    test_acc_list: 검증 set 정확도 리스트
+
+[설계]
+t_test: 결정 경계 y=-x+1.0 아래/위의 값 = 0/1

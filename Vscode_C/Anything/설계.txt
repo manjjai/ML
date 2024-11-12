@@ -1,0 +1,4 @@
+문자열 입력->charname 배열에 저장
+charname의 요소들을 하나씩 intnumber 배열에 저장
+    - 문자열->정수
+    
